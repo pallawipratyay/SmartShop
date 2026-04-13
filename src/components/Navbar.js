@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Navbar({ handleLogout }) {
+function Navbar({ handleLogout, user }) {
   const navigate = useNavigate();
 
   const logout = () => {
@@ -15,9 +15,17 @@ function Navbar({ handleLogout }) {
       background: "linear-gradient(90deg,#ff6a00,#ee0979)",
       color: "white",
       display: "flex",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      alignItems: "center"
     }}>
-      <h3>🛍 SmartShop</h3>
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <h3>🛍 SmartShop</h3>
+        {user && (
+          <span style={{ fontSize: "0.95rem", opacity: 0.9 }}>
+            Welcome, {user.name}
+          </span>
+        )}
+      </div>
 
       <div>
         <Link to="/home" style={{ margin: "10px", color: "white" }}>Home</Link>

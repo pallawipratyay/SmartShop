@@ -15,6 +15,7 @@ function App() {
 
   // 🔐 LOGIN STATE
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   // 🛒 DATA STATES
   const [cart, setCart] = useState([]);
@@ -27,8 +28,11 @@ function App() {
 
   // 🔁 LOGIN CHECK
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) setIsLoggedIn(true);
+    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+    if (storedUser) {
+      setIsLoggedIn(true);
+      setUser(storedUser);
+    }
   }, []);
 
   // 🛒 ADD TO CART
@@ -55,13 +59,14 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
+    setUser(null);
   };
 
   return (
     <BrowserRouter>
 
       {/* 🔝 NAVBAR */}
-      <Navbar handleLogout={handleLogout} />
+      <Navbar handleLogout={handleLogout} user={user} />
 
       <Routes>
 
@@ -71,7 +76,7 @@ function App() {
         {/* LOGIN */}
         <Route
           path="/login"
-          element={<Login setIsLoggedIn={setIsLoggedIn} />}
+          element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}
         />
 
         {/* SIGNUP */}
