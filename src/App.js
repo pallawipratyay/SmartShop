@@ -29,7 +29,8 @@ function App() {
   // 🔁 LOGIN CHECK
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-    if (storedUser) {
+    const storedToken = localStorage.getItem("token");
+    if (storedUser && storedToken) {
       setIsLoggedIn(true);
       setUser(storedUser);
     }
@@ -58,6 +59,8 @@ function App() {
   // 🚪 LOGOUT
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedIn");
     setIsLoggedIn(false);
     setUser(null);
   };
@@ -86,14 +89,10 @@ function App() {
         <Route
           path="/home"
           element={
-            isLoggedIn ? (
-              <Products
-                addToCart={addToCart}
-                addToWishlist={addToWishlist}
-              />
-            ) : (
-              <Navigate to="/login" />
-            )
+            <Products
+              addToCart={addToCart}
+              addToWishlist={addToWishlist}
+            />
           }
         />
 

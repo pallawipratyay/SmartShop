@@ -5,7 +5,7 @@ function Login({ setIsLoggedIn, setUser }) {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const { email, password } = loginData;
@@ -14,22 +14,29 @@ function Login({ setIsLoggedIn, setUser }) {
       return;
     }
 
-    const storedUser = JSON.parse(localStorage.getItem("user") || "null");
-    if (!storedUser) {
-      alert("No account found. Please signup first.");
-      navigate("/signup");
-      return;
-    }
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (storedUser.email !== email || storedUser.password !== password) {
-      alert("Invalid email or password.");
-      return;
-    }
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.error || "Invalid email or password.");
+        return;
+      }
 
-    localStorage.setItem("loggedIn", "true");
-    setIsLoggedIn(true);
-    setUser(storedUser);
-    navigate("/home");
+      localStorage.setItem("user", JSON.stringify({ id: data.id, name: data.name, email: data.email }));
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("loggedIn", "true");
+      setIsLoggedIn(true);
+      setUser({ id: data.id, name: data.name, email: data.email });
+      navigate("/home");
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Login failed. Please try again.");
+    }
   };
 
   return (

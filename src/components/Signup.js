@@ -10,14 +10,31 @@ function Signup() {
     password: ""
   });
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
-    // LocalStorage me save
-    localStorage.setItem("user", JSON.stringify(user));
+    try {
+      const response = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
 
-    alert("Signup Successful ✅");
-    navigate("/login");
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.error || "Signup failed");
+        return;
+      }
+
+      localStorage.setItem("user", JSON.stringify({ id: data.id, name: data.name, email: data.email }));
+      localStorage.setItem("token", data.token);
+
+      alert("Signup Successful ✅");
+      navigate("/login");
+    } catch (err) {
+      console.error("Signup error:", err);
+      alert("Signup failed. Please try again.");
+    }
   };
 
   return (
