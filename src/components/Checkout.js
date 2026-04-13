@@ -55,6 +55,7 @@ function Checkout({ placeOrder }) {
       date: new Date().toLocaleString(),
       productName: product.name,
       price: finalPrice,
+      image: product.image,
       name,
       mobile,
       address,

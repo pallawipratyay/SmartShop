@@ -73,6 +73,19 @@ function Orders({ orders, setOrders }) {
             <p><b>Date:</b> {item.date}</p>
 
             {/* PRODUCT */}
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.productName}
+                style={{
+                  width: "100%",
+                  maxHeight: "250px",
+                  objectFit: "cover",
+                  borderRadius: "12px",
+                  marginBottom: "15px"
+                }}
+              />
+            )}
             <h3>{item.productName}</h3>
             <p><b>Price:</b> ₹{item.price}</p>
 

@@ -33,20 +33,27 @@ function Navbar({ handleLogout, user }) {
         <Link to="/orders" style={{ margin: "10px", color: "white" }}>Orders</Link>
         <Link to="/wishlist" style={{ margin: "10px", color: "white" }}>Wishlist</Link>
 
-        <button
-          onClick={logout}
-          style={{
-            marginLeft: "15px",
-            background: "red",
-            color: "white",
-            border: "none",
-            padding: "6px 12px",
-            borderRadius: "6px",
-            cursor: "pointer"
-          }}
-        >
-          Logout
-        </button>
+        {user ? (
+          <button
+            onClick={logout}
+            style={{
+              marginLeft: "15px",
+              background: "red",
+              color: "white",
+              border: "none",
+              padding: "6px 12px",
+              borderRadius: "6px",
+              cursor: "pointer"
+            }}
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <Link to="/login" style={{ margin: "10px", color: "white" }}>Login</Link>
+            <Link to="/signup" style={{ margin: "10px", color: "white" }}>Signup</Link>
+          </>
+        )}
       </div>
     </div>
   );
