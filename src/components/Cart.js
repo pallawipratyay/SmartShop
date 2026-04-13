@@ -44,10 +44,24 @@ function Cart({ cart, setCart }) {
               margin: "15px auto",
               borderRadius: "15px",
               boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-              maxWidth: "400px",
+              maxWidth: "500px",
               textAlign: "center"
             }}
           >
+            {item.image && (
+              <img
+                src={item.image}
+                alt={item.name}
+                style={{
+                  width: "100%",
+                  height: "250px",
+                  objectFit: "contain",
+                  borderRadius: "10px",
+                  marginBottom: "15px",
+                  backgroundColor: "#f5f5f5"
+                }}
+              />
+            )}
             <h4>{item.name}</h4>
             <p>₹{item.price}</p>
 
